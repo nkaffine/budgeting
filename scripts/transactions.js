@@ -32,6 +32,7 @@ function getTransactions(start, end, from, to, query, type, to_name, from_name){
         "<th>From Account</th>"+
         "<th>To Account</th>"+
         "<th></th>"+
+        "<th></th>"+
         "</thead>"+
         "<tbody>";
     if(start != null || end != null || from != null || to != null || query != null || type != null) {
@@ -87,6 +88,12 @@ function getTransactions(start, end, from, to, query, type, to_name, from_name){
                     "<td class='time'>"+date+"</td>"+
                     "<td>"+from_name+"</td>"+
                     "<td>"+to_name+"</td>"+
+                    "<td>"+
+                    "<form action='editTransaction.php' method='post'>"+
+                    "<input type='hidden' name='transaction_id' value='"+id+"'>"+
+                    "<input type='submit' value='Edit' class='btn btn-default'>"+
+                    "</form>"+
+                    "</td>"+
                     "<td>"+
                     "<form action='removeTransaction.php' method='post'>"+
                     "<input type='hidden' name='id' value='"+id+"'>"+
