@@ -21,5 +21,23 @@
     if(!isset($account_id) || !isset($type)){
         error("21-4-1");
     }
-    $query = "select"
+    $query = "update accounts set active = 0 where account_id = {$account_id} and user_id = {$user_id}";
+    if(($result = @ mysqli_query($connection, $query))==FALSE){
+        error("21-5-6");
+    }
+    if(mysqli_affected_rows($connection)==-1){
+        error("21-6-4");
+    }
+    if($type == 0){
+        header("Location: ../accounts.php");
+    } else if($type == 1 || $type == 2){
+        header("Location: ../categories.php");
+    } else if($type == 3){
+        header("Location: ../accountsReceivable.php");
+    } else if($type == 4){
+        header("Location: ../accountsPayable.php");
+    } else {
+        header("Locations: ../home.php");
+    }
+    exit;
 ?>
