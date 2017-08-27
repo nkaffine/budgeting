@@ -42,7 +42,7 @@
     }
     $query = "select ".$method."(if(type = 0, -amount, amount)) as total from transactions";
     if(isset($start) || isset($end) || isset($to) || isset($from) || isset($search) || isset($type)){
-        $query = $query . " where user_id = {$user_id} and active = 1";
+        $query = $query . " where user_id = {$user_id} and active = 1 and ";
         if(isset($start)){
             $query = $query . "transaction_date >= '{$start}' and ";
         }
