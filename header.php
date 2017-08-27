@@ -18,7 +18,7 @@
         while($row = @ mysqli_fetch_array($result)){
             $name = $row['account_name'];
             $balance = $row['curr_balance'];
-            $link = "account.php?account=" . $row['id'];
+            $link = "account.php?account_id=" . $row['account_id'];
             $menu = $menu . "<li><a href='" . $link . "'><div style='font-weight: bold;'>" . $name . "</div><div>$" . $balance . "</div></a></li>";
         }
         $menu = $menu . "</ul></li>";
