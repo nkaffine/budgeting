@@ -7,13 +7,14 @@
  */
     require_once('../db.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))) {
-        showerror($connection);
+        error("8-1-7");
     }
+    $user_id = logincheck("8-2", "8-3");
     if(isset($_GET['start'])){
-        $start = process_date($_GET['start'], "8-1", "8-2");
+        $start = process_date($_GET['start'], "8-4", "8-5");
     }
     if(isset($_GET['end'])){
-        $end = process_date($_GET['end'],"8-3", "8-4");
+        $end = process_date($_GET['end'],"8-6", "8-7");
     }
     if(isset($_GET['to'])){
         $to = validNumbers($_GET['to'], 10);
@@ -37,11 +38,11 @@
         $method = validInputSizeAlpha($_GET['method'], 50);
     }
     if(empty($method)){
-        error("Not all required values were passed");
+        error("8-8-1");
     }
     $query = "select ".$method."(if(type = 0, -amount, amount)) as total from transactions";
     if(isset($start) || isset($end) || isset($to) || isset($from) || isset($search) || isset($type)){
-        $query = $query . " where ";
+        $query = $query . " where user_id = {$user_id} and active = 1";
         if(isset($start)){
             $query = $query . "transaction_date >= '{$start}' and ";
         }
@@ -68,7 +69,7 @@
     }
     $query = $query . " order by transaction_date desc, date_added desc";
     if(($result = @ mysqli_query($connection, $query))==FALSE){
-        showerror($connection);
+        error("8-9-6");
     }
     header("Content-type: text/xml");
 

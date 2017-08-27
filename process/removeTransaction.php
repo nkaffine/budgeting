@@ -32,12 +32,12 @@
     $type = $row['type'];
 
     mysqli_begin_transaction($connection);
-    $query = "delete transactions from transactions where user_id = {$user_id} and transaction_id = {$transaction_id}";
+    $query = "update transactions set active = 0 where user_id = {$user_id} and transaction_id = {$transaction_id}";
     if(($result = @ mysqli_query($connection, $query))==FALSE){
         error("12-7-6");
     }
     if(mysqli_affected_rows($connection) == -1){
-        error("12-8-5");
+        error("12-8-4");
     }
     switch($type){
         case 0:

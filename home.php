@@ -12,34 +12,33 @@
     }
     $user_id = logincheck("4-1", "4-2");
     $menu = getHeaderInfo("4-3");
-    $query = "select transaction_name, amount, transaction_date, type from transactions order by transaction_date ".
-        "desc, date_added desc limit 10";
+    $query = "select transaction_name, amount, transaction_date, type from transactions where active = 1 order by ".
+        "transaction_date desc, date_added desc limit 10";
     if(($recent_transactions = @ mysqli_query($connection, $query))==FALSE){
         error("4-4-6");
     }
     $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 0";
+        "account_type = 0 and active = 1";
     if(($personal_accounts = @ mysqli_query($connection, $query))==FALSE){
-        debug($query);
         error("4-5-6");
     }
     $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 2";
+        "account_type = 2 and active = 1";
     if(($earning_categorys = @ mysqli_query($connection, $query))==FALSE){
         error("4-6-6");
     }
     $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 1";
+        "account_type = 1 and active = 1";
     if(($spending_categories = @ mysqli_query($connection, $query))==FALSE){
         error("4-7-6");
     }
     $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 3";
+        "account_type = 3 and active = 1";
     if(($ar_accounts = @ mysqli_query($connection, $query))==FALSE){
         error("4-8-6");
     }
     $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 4";
+        "account_type = 4 and active = 1";
     if(($ap_accounts = @ mysqli_query($connection, $query))==FALSE){
         error("4-9-6");
     }

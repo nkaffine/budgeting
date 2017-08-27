@@ -38,7 +38,7 @@
         "froms.account_name as from_name, tos.account_name as to_name from transactions left join ".
         "(select account_id as from_account, account_name from accounts where user_id = {$user_id}) as froms ".
         "using (from_account) left join (select account_id as to_account, account_name from accounts where ".
-        "user_id = {$user_id}) as tos using(to_account) where user_id = {$user_id} ";
+        "user_id = {$user_id}) as tos using(to_account) where user_id = {$user_id} and active = 1 ";
     if(isset($start) || isset($end) || isset($to) || isset($from) || isset($search) || isset($type)){
         $query = $query . "and ";
         if(isset($start)){
