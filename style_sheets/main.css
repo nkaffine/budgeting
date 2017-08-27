@@ -1,0 +1,56 @@
+html {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+body:after {
+    content:"";
+    position:fixed; /* stretch a fixed position to the whole screen */
+    top:0;
+    height:100vh; /* fix for mobile browser address bar appearing disappearing */
+    left:0;
+    right:0;
+    z-index:-1; /* needed to keep in the background */
+    background: url("../images/background.jpg") center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.box{
+    background-color: white;
+}
+.valign {
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 0vh; /* These two lines are counted as one :-)       */
+    display: flex;
+    align-items: baseline;
+    transform: translateY(30vh);
+}
+nav {
+    padding: 0% 1% 0 0;
+}
+.navbar li a {
+    font-size: 18px;
+}
+.navbar-brand {
+    font-size: 25px;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#logoutBtn {
+    background-color: #4867AA;
+    padding: 2%;
+    padding-right: 1em;
+}
+.btn-facebook {
+    background-color: #4867AA;
+    color: white;
+    padding: 1%;
+    padding-right: 2%;
+    margin-bottom: 10%;
+}
