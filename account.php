@@ -72,8 +72,8 @@
             <div class="box col-lg-12">
                 <?php echo"
                     <h1>{$account_name}</h1>
-                    <h2>Starting Balance: $"."{$init_balance}</h2>
                     <h2>Current Balance: $"."{$curr_balance}</h2>
+                    <h2>Starting Balance: $"."{$init_balance}</h2>
                     ";
                 ?>
             </div>
