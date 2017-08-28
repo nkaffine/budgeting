@@ -35,7 +35,9 @@
         $type = validNumbers($_GET['type'], 1);
     }
     $query = "select transaction_id, transaction_name, type, description, transaction_date, transaction_id, amount, ".
-        "froms.account_name as from_name, tos.account_name as to_name from transactions left join ".
+        "froms.account_name as from_name, tos.account_name as to_name, (select balance_type from accounts where user_id ".
+        "= {$user_id} and account_id = to_account) as to_type, (select balance_type from accounts where user_id = {$user_id} ".
+        "and account_id = from_account) as from_type from transactions left join ".
         "(select account_id as from_account, account_name from accounts where user_id = {$user_id}) as froms ".
         "using (from_account) left join (select account_id as to_account, account_name from accounts where ".
         "user_id = {$user_id}) as tos using(to_account) where user_id = {$user_id} and active = 1 ";
@@ -90,5 +92,7 @@
         $newTransaction->setAttribute("to_name", $row['to_name']);
         $newTransaction->setAttribute("id", $row['transaction_id']);
         $newTransaction->setAttribute("amount", $row['amount']);
+        $newTransaction->setAttribute("to_type", $row['to_type']);
+        $newTransaction->setAttribute("from_type", $row['from_type']);
     }
     echo $dom->saveXML();

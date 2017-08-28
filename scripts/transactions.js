@@ -75,6 +75,8 @@ function getTransactions(start, end, from, to, query, type, to_name, from_name){
                 var to_name = transactionElem.getAttribute('to_name');
                 var id = transactionElem.getAttribute('id');
                 var amount = transactionElem.getAttribute('amount');
+                var to_type = transactionElem.getAttribute('to_type');
+                var from_type = transactionElem.getAttribute('from_type');
                 html = html + "<tr>"+
                     "<td>"+name+"</td>";
                 if(type == 0 || type == 6){
@@ -82,7 +84,11 @@ function getTransactions(start, end, from, to, query, type, to_name, from_name){
                 } else if (type == 1 || type == 4) {
                     html = html + "<td style='color: green;'>+$" + amount + "</td>";
                 } else {
-                    html = html + "<td style='color: grey;'>$" + amount + "</td>";
+                    if(to_type = from_type){
+                        html = html + "<td style='color: grey;'>$" + amount + "</td>";
+                    } else {
+                        html = html + "<td style='color: red;'>-$" + amount + "</td>";
+                    }
                 }
                 html = html + "<td>" + description + "</td>"+
                     "<td class='time'>"+date+"</td>"+
