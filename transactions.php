@@ -196,5 +196,6 @@
             </div>
         </div>
         <?php echo"<div style='margin-top: 2%; margin-bottom: 20%;' id='results' class='box col-lg-8 col-lg-offset-2'></div>"; ?>
+        <div class='col-lg-12' style="height:20vh;></div>
     </body>
 </html>

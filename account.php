@@ -29,9 +29,11 @@
     $account_name = $row['account_name'];
     $init_balance = $row['init_balance'];
     $curr_balance = $row['curr_balance'];
-    $query = "select transaction_name, description, amount, transaction_date, from_account, (select account_name from ".
-        "accounts where account_id = from_account and user_id = {$user_id}) as from_name, to_account, (select account_name ".
-        "from accounts where account_id = to_account and user_id = {$user_id}) as to_name from transactions where ".
+    $query = "select transaction_name, description, amount, type, transaction_date, from_account, (select account_name from ".
+        "accounts where account_id = from_account and user_id = {$user_id}) as from_name, (select balance_type from accounts ".
+        "where user_id = {$user_id} and account_id = from_account) as from_type, to_account, (select account_name ".
+        "from accounts where account_id = to_account and user_id = {$user_id}) as to_name, (select balance_type from accounts ".
+        "where user_id = {$user_id} and account_id = to_account) as to_type from transactions where ".
         "(to_account = {$account_id} or from_account = {$account_id}) and user_id = {$user_id} order by ".
         "transaction_date desc, date_added desc limit 20";
     if(($result = @ mysqli_query($connection,$query))==FALSE){
@@ -76,7 +78,7 @@
                 ?>
             </div>
             <div class="box col-lg-12" style="margin-top:2%;">
-                <h1>Transactions</h1>
+                <?php echo"<h1>Transactions with {$account_name}</h1>";?>
                 <?php
                     if(mysqli_num_rows($result) > 0){
                         echo"<table class='table table-striped'>
@@ -85,6 +87,8 @@
                                     <th>Amount</th>
                                     <th>Description</th>
                                     <th>Date</th>
+                                    <th>From</th>
+                                    <th>To</th>
                                 </thead>
                                 <tbody>";
                                     while($row = @ mysqli_fetch_array($result)){
@@ -92,11 +96,36 @@
                                         $amount = $row['amount'];
                                         $description = $row['description'];
                                         $date = $row['transaction_date'];
+                                        $type = $row['type'];
+                                        $from_name = $row['from_name'];
+                                        $to_name = $row['to_name'];
+                                        $to_type = $row['to_type'];
+                                        $from_type = $row['from_type'];
+                                        if($type == 1 || $type == 4){
+                                            $prefix = "+";
+                                            $color = "green";
+                                        } else if($type == 0 || $type == 6) {
+                                            $prefix = "-";
+                                            $color = "red";
+                                        } else if($type == 2){
+                                            if($to_type == $from_type){
+                                                $prefix = "";
+                                                $color = "grey";
+                                            } else {
+                                                $prefix = "-";
+                                                $color = "red";
+                                            }
+                                        } else {
+                                            $prefix = "-";
+                                            $color = "red";
+                                        }
                                         echo"<tr>
                                                 <td>{$name}</td>
-                                                <td>$"."{$amount}</td>
+                                                <td style='color:{$color}'>{$prefix}"."$"."{$amount}</td>
                                                 <td>{$description}</td>
                                                 <td class='time'>{$date}</td>
+                                                <td>{$from_name}</td>
+                                                <td>{$to_name}</td>
                                             </tr>";
                                     }
                             echo"</tbody>
@@ -108,5 +137,6 @@
                 ?>
             </div>
         </div>
+        <div class='col-lg-12' style="height:20vh;"></div>
     </body>
 </html>
