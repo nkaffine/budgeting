@@ -19,14 +19,8 @@
     if(isset($_GET['to'])){
         $to = validNumbers($_GET['to'], 10);
     }
-    if(isset($_GET['to_name'])){
-        $to_name = validInputSizeAlpha($_GET['to_name'], 255);
-    }
     if(isset($_GET['from'])){
         $from = validNumbers($_GET['from'], 10);
-    }
-    if(isset($_GET['from_name'])){
-        $to_name = validInputSizeAlpha($_GET['from_name'], 255);
     }
     if(isset($_GET['query'])){
         $search = validInputSizeAlpha($_GET['query'], 255);
@@ -41,8 +35,9 @@
         error("8-8-1");
     }
     $query = "select ".$method."(if(type = 0, -amount, amount)) as total from transactions";
+    $query = $query . " where user_id = {$user_id} and active = 1";
     if(isset($start) || isset($end) || isset($to) || isset($from) || isset($search) || isset($type)){
-        $query = $query . " where user_id = {$user_id} and active = 1 and ";
+        $query = $query. " and ";
         if(isset($start)){
             $query = $query . "transaction_date >= '{$start}' and ";
         }
@@ -50,14 +45,10 @@
             $query = $query . "transaction_date <= '{$end}' and ";
         }
         if(isset($to)){
-            $query = $query . "(if(to_id is null, category_id, to_id) = {$to} and if(to_id is null, ".
-                "(select name from categories where id = category_id), (select ".
-                "name from accounts where id = to_id)) = '{$to_name}') and ";
+            $query = $query . "to_account = {$to} and ";
         }
         if(isset($from)){
-            $query = $query . "(if(from_id is null, category_id, from_id) = {$from} and if(from_id is null, ".
-                "(select name from categories where id = category_id), (select name ".
-                "from accounts where id = from_id)) = '{$from_name}') and ";
+            $query = $query . "from_account = {$from} and ";
         }
         if(isset($search)){
             $query = $query . "transaction_name like '%{$search}%' and ";
@@ -69,6 +60,7 @@
     }
     $query = $query . " order by transaction_date desc, date_added desc";
     if(($result = @ mysqli_query($connection, $query))==FALSE){
+        debug($query);
         error("8-9-6");
     }
     header("Content-type: text/xml");

@@ -22,12 +22,6 @@
     if(isset($_GET['from'])){
         $from = validNumbers($_GET['from'], 10);
     }
-    if(isset($_GET['from_name'])){
-        $from_name = validInputSizeAlpha($_GET['from_name'], 255);
-    }
-    if(isset($_GET['to_name'])){
-        $to_name = validInputSizeAlpha($_GET['to_name'], 255);
-    }
     if(isset($_GET['query'])){
         $search = validInputSizeAlpha($_GET['query'], 255);
     }
@@ -50,14 +44,10 @@
             $query = $query . "transaction_date <= '{$end}' and ";
         }
         if(isset($to)){
-            $query = $query . "(if(to_id is null, category_id, to_id) = {$to} and if(to_id is null, ".
-                "(select name from categories where id = category_id), (select ".
-                "name from accounts where id = to_id)) = '{$to_name}') and ";
+            $query = $query . "to_account = {$to} and ";
         }
         if(isset($from)){
-            $query = $query . "(if(from_id is null, category_id, from_id) = {$from} and if(from_id is null, ".
-                "(select name from categories where id = category_id), (select name ".
-                "from accounts where id = from_id)) = '{$from_name}') and ";
+            $query = $query . "from_account = {$from} and ";
         }
         if(isset($search)){
             $query = $query . "transaction_name like '%{$search}%' and ";

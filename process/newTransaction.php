@@ -74,7 +74,7 @@
         case 3:
             //Account receivable transaction
             //Increase from account
-            decreaseAccount($from_id, $amount, "11-25", "11-26", "11-27","11-28");
+            //decreaseAccount($from_id, $amount, "11-25", "11-26", "11-27","11-28");
             increaseAccount($to_id, $amount, "11-29", "11-30", "11-31", "11-32");
             break;
         case 4:

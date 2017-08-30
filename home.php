@@ -80,7 +80,7 @@
     </head>
     <body>
         <?php echo placeHeader($menu);?>
-        <div class="container-fluid">
+        <div class="container-fluid hidden-xs">
             <div class="col-lg-4 box">
                 <div class='box1' style="padding-bottom: 4%;">
                     <h1 role="button" data-toggle="collapse" data-target="#newTransaction">New Transaction</h1>
@@ -182,7 +182,7 @@
                                     $name = $row['account_name'];
                                     $account_id = $row['account_id'];
                                     $curr_balance = $row['curr_balance'];
-                                    $link = 'account.php?id=' . $account_id;
+                                    $link = 'account.php?account_id=' . $account_id;
                                     echo"<tr>
                                             <td><a href='{$link}'>{$name}</a></td>
                                             <td>$".$curr_balance."</td>
@@ -215,7 +215,7 @@
                                 $name = $row['account_name'];
                                 $account_id = $row['account_id'];
                                 $account_balance = $row['curr_balance'];
-                                $link = 'account.php?id=' . $account_id;
+                                $link = 'account.php?account_id=' . $account_id;
                                 echo"<tr>
                                         <td><a href='{$link}'>{$name}</a></td>
                                         <td>$".$account_balance."</td>
@@ -249,7 +249,7 @@
                                 $name = $row['account_name'];
                                 $account_id = $row['account_id'];
                                 $account_balance = $row['curr_balance'];
-                                $link = 'account.php?id=' . $account_id;
+                                $link = 'account.php?account_id=' . $account_id;
                                 echo"<tr>
                                     <td><a href='{$link}'>{$name}</a></td>
                                     <td>$".$account_balance."</td>
@@ -282,7 +282,7 @@
                             while($row = @ mysqli_fetch_array($spending_categories)){
                                 $name = $row['account_name'];
                                 $account_id = $row['account_id'];
-                                $link = 'account.php?id=' . $account_id;
+                                $link = 'account.php?account_id=' . $account_id;
                                 echo"<tr>
                                         <td><a href='{$link}'>{$name}</a></td>
                                     </tr>";
@@ -313,7 +313,7 @@
                             while($row = @ mysqli_fetch_array($earning_categorys)){
                                 $name = $row['account_name'];
                                 $account_id = $row['account_id'];
-                                $link = 'account.php?id=' . $account_id;
+                                $link = 'account.php?account_id=' . $account_id;
                                 echo"<tr>
                                         <td><a href='{$link}'>{$name}</a></td>
                                     </tr>";
@@ -322,6 +322,47 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="visible-xs col-xs-10 col-xs-offset-1">
+            <div class='box1' style="padding-bottom: 4%;">
+                <h1>New Transaction</h1>
+                <div>
+                    <form action="newTransaction.php" method="post">
+                        <input class="btn btn-default form-control" type="submit" value="New Spending Transaction">
+                        <input type="hidden" name="type" value="0">
+                    </form>
+                    &nbsp;
+                    <form action="newTransaction.php" method="post">
+                        <input class="btn btn-default form-control" type="submit" value="New Earning Transaction">
+                        <input type="hidden" name="type" value="1">
+                    </form>
+                    &nbsp;
+                    <form action="newTransaction.php" method="post">
+                        <input class="btn btn-default form-control" type="submit" value="New Transfer Transaction">
+                        <input type="hidden" name="type" value="2">
+                    </form>
+                    &nbsp;
+                    <form action="newTransaction.php" method="post">
+                        <input class="btn btn-default form-control" type="submit" value="New Accounts Receivable Transaction">
+                        <input type="hidden" name="type" value="3">
+                    </form>
+                    &nbsp;
+                    <form action="newTransaction.php" method="post">
+                        <input class="btn btn-default form-control" type="submit" value="New Accounts Received Transaction">
+                        <input type="hidden" name="type" value="4">
+                    </form>
+                    &nbsp;
+                    <form action="newTransaction.php" method="post">
+                        <input class="btn btn-default form-control" type="submit" value="New Accounts Payable Transaction">
+                        <input type="hidden" name="type" value="5">
+                    </form>
+                    &nbsp;
+                    <form action="newTransaction.php" method="post">
+                        <input class="btn btn-default form-control" type="submit" value="New Accounts Paid Transaction">
+                        <input type="hidden" name="type" value="6">
+                    </form>
                 </div>
             </div>
         </div>

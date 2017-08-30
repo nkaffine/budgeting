@@ -22,7 +22,7 @@ function downloadUrl(url, callback) {
 
 function doNothing(){}
 
-function getTransactions(start, end, from, to, query, type, to_name, from_name){
+function getTransactions(start, end, from, to, query, type){
     var html = "<table class='col-lg-12 table table-striped'>"+
         "<thead>"+
         "<th>Name</th>"+
@@ -45,11 +45,9 @@ function getTransactions(start, end, from, to, query, type, to_name, from_name){
         }
         if(from != null){
             link = link + "from=" + encodeURIComponent(from) + "&";
-            link = link + "from_name=" + encodeURIComponent(from_name) + "&";
         }
         if(to != null){
             link = link + "to=" + encodeURIComponent(to) + "&";
-            link = link + "to_name=" + encodeURIComponent(to_name) + "&";
         }
         if(query != null){
             link = link + "query=" + encodeURIComponent(query) + "&";
@@ -116,7 +114,7 @@ function getTransactions(start, end, from, to, query, type, to_name, from_name){
     });
 }
 
-function sumTransactions(start, end, from, to, query, type, to_name, from_name, method){
+function sumTransactions(start, end, from, to, query, type, method){
     var html = "<table class='col-lg-12 table table-striped'>"+
         "<thead>"+
         "<th>Sum</th>"+
@@ -131,11 +129,9 @@ function sumTransactions(start, end, from, to, query, type, to_name, from_name, 
     }
     if(from != null){
         link = link + "from=" + encodeURIComponent(from) + "&";
-        link = link + "from_name=" + encodeURIComponent(from_name) + "&";
     }
     if(to != null){
         link = link + "to=" + encodeURIComponent(to) + "&";
-        link = link + "to_name=" + encodeURIComponent(to_name) + "&";
     }
     if(query != null){
         link = link + "query=" + encodeURIComponent(query) + "&";
@@ -147,6 +143,7 @@ function sumTransactions(start, end, from, to, query, type, to_name, from_name, 
         link = link + "method=" + encodeURIComponent(method) + "&";
     }
     link = link.substr(0, link.length - 1);
+    console.log(link);
     downloadUrl(link, function (data) {
         var xml = data.responseXML;
         var transactions = xml.documentElement.getElementsByTagName('transaction');

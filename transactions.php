@@ -12,34 +12,29 @@
     }
     $user_id = logincheck("6-1", "6-2");
     $menu = getHeaderInfo("6-4");
-    $query = "select account_name, account_id from accounts";
+    //Account Types that can be from accounts (0,2,3,1)
+    $query = "select account_name, account_id from accounts where (account_type <= 3)";
     if(($result = @ mysqli_query($connection, $query))==FALSE){
-        showerror($connection);
+        error("6-5-6");
     }
     $froms = "<option selected='selected' value='0'>None</option>";
     while($row = @ mysqli_fetch_array($result)){
-        $id = $row['id'];
-        $name = $row['name'];
-        $froms = $froms . "<option value='{$id}_{$name}'>{$name}</option>";
+        $name = $row['account_name'];
+        $id = $row['account_id'];
+        $option = "<option value='{$id}'>{$name}</option>";
+        $froms = $froms. $option;
     }
-    $tos = $froms;
-    $query = "select account_name, account_id from categories where type = 1";
+    $tos = "<option selected='selected' value='0'>None</option>";
+    //Account Types that can be to accounts (0,1,2,4)
+    $query = "select account_name, account_id from accounts where (account_type != 3)";
     if(($result = @ mysqli_query($connection, $query))==FALSE){
-        showerror($connection);
+        error("6-6-6");
     }
     while($row = @ mysqli_fetch_array($result)){
-        $id = $row['id'];
-        $name = $row['name'];
-        $froms = $froms . "<option value='{$id}_{$name}'>{$name}</option>";
-    }
-    $query = "select name, id from categories where type = 0";
-    if(($result = @ mysqli_query($connection, $query))==FALSE){
-        showerror($connection);
-    }
-    while($row = @ mysqli_fetch_array($result)){
-        $id = $row['id'];
-        $name = $row['name'];
-        $tos = $tos . "<option value='{$id}_{$name}'>{$name}</option>";
+        $name = $row['account_name'];
+        $id = $row['account_id'];
+        $option = "<option value='{$id}'>{$name}</option>";
+        $tos = $tos. $option;
     }
 ?>
 <!DOCTYPE HTML>
@@ -80,16 +75,10 @@
                 var from = document.getElementById("from").value;
                 if(from == 0){
                     from = null;
-                } else {
-                    var from_name = from.substr(from.indexOf("_") + 1, from.length);
-                    from = from.substr(0, from.indexOf("_"));
                 }
                 var to = document.getElementById("to").value;
                 if(to == 0){
                     to = null;
-                } else {
-                    var to_name = to.substr(to.indexOf("_") + 1, to.length);
-                    to = to.substr(0, to.indexOf("_"));
                 }
                 var query = document.getElementById("query").value;
                 if(query == ""){
@@ -99,7 +88,7 @@
                 if(type == -1){
                     type = null;
                 }
-                sumTransactions(start, end, from, to, query, type, to_name, from_name, method);
+                sumTransactions(start, end, from, to, query, type, method);
             }
             $(document).ready(function(){
                 getTransactions();
@@ -115,16 +104,10 @@
                     var from = document.getElementById("from").value;
                     if(from == 0){
                         from = null;
-                    } else {
-                        var from_name = from.substr(from.indexOf("_") + 1, from.length);
-                        from = from.substr(0, from.indexOf("_"));
                     }
                     var to = document.getElementById("to").value;
                     if(to == 0){
                         to = null;
-                    } else {
-                        var to_name = to.substr(to.indexOf("_") + 1, to.length);
-                        to = to.substr(0, to.indexOf("_"));
                     }
                     var query = document.getElementById("query").value;
                     if(query == ""){
@@ -134,7 +117,7 @@
                     if(type == -1){
                         type = null;
                     }
-                    getTransactions(start, end, from, to, query, type, to_name, from_name);
+                    getTransactions(start, end, from, to, query, type);
                 });
                 $("#btn2").click(function(){
                     oneValue("SUM");
@@ -184,6 +167,11 @@
                     <option value="-1">All</option>
                     <option value="0">Spend</option>
                     <option value="1">Earn</option>
+                    <option value="2">Transfer</option>
+                    <option value="3">Accounts Receivable</option>
+                    <option value="4">Accounts Received</option>
+                    <option value="5">Accounts Payable</option>
+                    <option value="6">Accounts Paid</option>
                 </select>
             </div>
             &nbsp;

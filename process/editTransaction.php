@@ -75,7 +75,7 @@
         case 3:
             //Account receivable transaction
             //Increase from account
-            increaseAccount($old_from_account, $old_amount, "23-27", "23-28", "23-29","23-30");
+//            increaseAccount($old_from_account, $old_amount, "23-27", "23-28", "23-29","23-30");
             decreaseAccount($old_to_account, $old_amount, "23-31", "23-32", "23-33", "23-34");
             break;
         case 4:
@@ -119,7 +119,7 @@
         case 3:
             //Account receivable transaction
             //Increase from account
-            decreaseAccount($from_id, $amount, "23-70", "23-71", "23-72","23-73");
+//            decreaseAccount($from_id, $amount, "23-70", "23-71", "23-72","23-73");
             increaseAccount($to_id, $amount, "23-74", "23-75", "23-76", "23-77");
             break;
         case 4:

@@ -29,19 +29,26 @@
         echo"<nav class='navbar navbar-inverse'>
                 <div class='container-fluid'>
                     <div class='navbar-header'>
+                        <button type='button' class='navbar-toggle' data-toggle='collapse' data-target=''#myNavbar'>
+                            <span class='icon-bar'></span>
+                            <span class='icon-bar'></span>
+                            <span class='icon-bar'></span>
+                        </button>
                         <a class='navbar-brand' href='/home.php'>Budgeting</a>
                     </div>
-                    <ul class='nav navbar-nav'>
-                        <li><a href='home.php'>Home</a></li>
-                        <li><a href='/transactions.php'>Transactions</a></li>   
-                        <li><a href='/accounts.php'>Accounts</a></li>                
-                        <li><a href='/categories.php'>Categories</a></li>
-                        <li><a href='accountsPayable.php'>Accounts Payable</a></li>
-                        <li><a href='accountsReceivable.php'>Accounts Receivable</a></li>
-                    </ul>
-                    <ul class='nav navbar-nav navbar-right'>";
-        echo"{$menu}";
-        echo"</ul>
+                    <div class=\"collapse navbar-collapse\" id=\"myNavbar\">
+                        <ul class='nav navbar-nav'>
+                            <li><a href='home.php'>Home</a></li>
+                            <li><a href='/transactions.php'>Transactions</a></li>   
+                            <li><a href='/accounts.php'>Accounts</a></li>                
+                            <li><a href='/categories.php'>Categories</a></li>
+                            <li><a href='accountsPayable.php'>Accounts Payable</a></li>
+                            <li><a href='accountsReceivable.php'>Accounts Receivable</a></li>
+                        </ul>
+                        <ul class='nav navbar-nav navbar-right'>";
+                    echo"{$menu}";
+                    echo"</ul>
+                    </div>
                 </div>
             </nav>";
     }
