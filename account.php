@@ -68,7 +68,7 @@
     </head>
     <body>
         <?php placeHeader($menu);?>
-        <div class="col-lg-6 col-lg-offset-3">
+        <div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
             <div class="box col-lg-12">
                 <?php echo"
                     <h1>{$account_name}</h1>

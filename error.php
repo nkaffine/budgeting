@@ -31,7 +31,7 @@
     <body>
         <?php
         if(isset($message)){
-            echo"<div class='col-lg-6 col-lg-offset-3' style='margin-top: 2%;'><div class='panel panel-danger'>
+            echo"<div class='col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1' style='margin-top: 2%;'><div class='panel panel-danger'>
                             <div class='panel-heading'>Alert:</div>
                             <div class='panel-body'>{$message}</div>
                         </div></div>";

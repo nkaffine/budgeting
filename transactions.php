@@ -136,7 +136,7 @@
     </head>
     <body>
         <?php placeHeader($menu);?>
-        <div class="col-lg-8 col-lg-offset-2 box ">
+        <div class="col-lg-8 col-lg-offset-2 box col-xs-10 col-xs-offset-1">
             <div class="col-lg-2">
                 <label for="start_date">Start Date</label>
                 <input class="form-control" id="start_date" name="start_date" value="">

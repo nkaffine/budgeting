@@ -37,7 +37,7 @@
     </head>
     <body>
         <?php placeHeader($menu)?>
-        <div class="box col-lg-6 col-lg-offset-3">
+        <div class="box col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
             <h1>Accounts Payable</h1>
             <?php
                 if(mysqli_num_rows($ap) > 0){

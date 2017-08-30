@@ -69,7 +69,7 @@
     </head>
     <body>
         <?php placeHeader($menu)?>
-        <div class="box col-lg-4 col-lg-offset-4">
+        <div class="box col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
             <form action="process/editAccount.php" method="post">
                 <h1>New Account</h1>
                 <label for="name">Account Name</label>

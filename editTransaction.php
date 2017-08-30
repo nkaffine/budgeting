@@ -158,7 +158,7 @@
     </head>
     <body>
         <?php placeHeader($menu) ?>
-        <div class="col-lg-4 col-lg-offset-4 box">
+        <div class="col-lg-4 col-lg-offset-4 box col-xs-10 col-xs-offset-1">
             <?php echo"<h3>New {$name} Transaction</h3>"; ?>
             <form action="process/editTransaction.php" method="post" id="transaction">
                 <label for="name">Name</label>

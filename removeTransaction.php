@@ -45,7 +45,7 @@
     </head>
     <body>
         <?php placeHeader($menu)?>
-        <div class="box col-lg-4 col-lg-offset-4">
+        <div class="box col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
             <h1>Are you sure you want to remove the transaction?</h1>
             <form action="process/removeTransaction.php" method="post">
                 <?php echo"<input type='hidden' name='id' value='{$id}'>"; ?>

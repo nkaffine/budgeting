@@ -40,7 +40,7 @@
     </head>
     <body>
         <?php placeHeader($menu)?>
-        <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-lg-8 col-lg-offset-2 col-xs-10 col-xs-offset-1">
             <div class="box col-lg-5 col-lg-offset-1">
                 <h1>Spending Categories</h1>
                 <?php

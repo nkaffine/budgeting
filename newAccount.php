@@ -37,7 +37,7 @@
     </head>
     <body>
         <?php placeHeader($menu) ?>
-        <form class="box col-lg-4 col-lg-offset-4" action="process/newAccount.php" method="get">
+        <form class="box col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1" action="process/newAccount.php" method="get">
             <h1>New Account</h1>
             <label for="name">Account Name</label>
             <input class="form-control" type="text" name="name" value="">
