@@ -8,14 +8,14 @@
     require_once('db.php');
     require_once('header.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
-        showerror($connection);
+        error("2-1-7");
     }
-    $user_id = logincheck("2-1", "2-2");
+    $user_id = logincheck("2-2", "2-3");
     if(count($_POST)){
         $type = validNumbers($_POST['type'], 1);
     }
     if(!isset($type)){
-        error("2-3-1");
+        error("2-4-1");
     }
     switch ($type) {
         case 0 :
@@ -90,7 +90,7 @@
             break;
         default :
             //The transaction is one that has not been recognized
-            error("2-4-2");
+            error("2-5-2");
     }
     $query = "select account_name, account_id from accounts where account_type = {$from_account_type} and ".
         "user_id = {$user_id} and active = 1";
@@ -102,7 +102,7 @@
     if(($to_accounts = @ mysqli_query($connection, $query))==FALSE){
         showerror($connection);
     }
-    $menu = getHeaderInfo("2-5");
+    $menu = getHeaderInfo("2-6", "2-7");
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -141,7 +141,7 @@
             <label for="Amount">Amount</label>
             <input class="form-control" type="number" step=".01" value="0" name="amount">
             <label for='from'>Where the Money is Coming From</label>
-            <div class="col-lg-10 row">
+            <div class="col-lg-12" style="padding-left:0;padding-right:0;">
                 <select class='selectpicker form-control' name='from'">
                 <?php
                 while($row = @ mysqli_fetch_array($from_accounts)){
@@ -152,36 +152,36 @@
                 ?>
                 </select>
             </div>
-            <button type='button' class="col-lg-2 btn btn-primary pull-right" style="margin-left: 0;" data-toggle="collapse" data-target="#newFrom">New</button>
-            <div id="newFrom" class="collapse col-lg-12">
-                <?php
-                echo"<input id='newFromAccountType' type='hidden' name='account_type' value='{$from_account_type}'>";
-                echo"
-                                <h3>New {$from_name}</h3>
-                                <label for='name'>Name</label>
-                                <input id='newFromName' class='form-control' type='text' name='name' value=''>";
-                if($from_account_type == 0 || $from_account_type == 3 || $from_account_type == 4){
-                    echo"
-                                <label for='balance'>Balance</label>
-                                <input id='newFromBalance' class='form-control' type='number' name='balance' step='.01' value='0'>";
-                    if($from_account_type == 0){
-                        echo"
-                                        <label for='type'>Type</label>
-                                        <select id='newFromBalanceType' class='form-control selectpicker' name='type'>
-                                            <option value='0' selected='selected'>Debit</option>
-                                            <option value='1'>Credit</option>
-                                        </select>";
-                    }
-
-                }
-                echo
-                "&nbsp;
-                            <button id='newFromBtn' type='button' class='form-control btn btn-primary' data-toggle='collapse' data-target='#newFrom'>Create</button>
-                            &nbsp;";
-                ?>
-            </div>
+<!--            <button type='button' class="col-lg-2 col-xs-12 btn btn-primary pull-right" style="margin-left: 0;" data-toggle="collapse" data-target="#newFrom">New</button>-->
+<!--            <div id="newFrom" class="collapse col-lg-12">-->
+<!--                --><?php
+//                echo"<input id='newFromAccountType' type='hidden' name='account_type' value='{$from_account_type}'>";
+//                echo"
+//                                <h3>New {$from_name}</h3>
+//                                <label for='name'>Name</label>
+//                                <input id='newFromName' class='form-control' type='text' name='name' value=''>";
+//                if($from_account_type == 0 || $from_account_type == 3 || $from_account_type == 4){
+//                    echo"
+//                                <label for='balance'>Balance</label>
+//                                <input id='newFromBalance' class='form-control' type='number' name='balance' step='.01' value='0'>";
+//                    if($from_account_type == 0){
+//                        echo"
+//                                        <label for='type'>Type</label>
+//                                        <select id='newFromBalanceType' class='form-control selectpicker' name='type'>
+//                                            <option value='0' selected='selected'>Debit</option>
+//                                            <option value='1'>Credit</option>
+//                                        </select>";
+//                    }
+//
+//                }
+//                echo
+//                "&nbsp;
+//                            <button id='newFromBtn' type='button' class='form-control btn btn-primary' data-toggle='collapse' data-target='#newFrom'>Create</button>
+//                            &nbsp;";
+////                ?>
+<!--            </div>-->
             <label class='col-lg-12 row' for='to'>Where the Money is Going</label>
-            <div class="col-lg-10 row">
+            <div class="col-lg-12" style="padding-left:0;padding-right:0;">
                 <select class='selectpicker form-control' name='to'">
                 <?php
                 while($row = @ mysqli_fetch_array($to_accounts)){
@@ -192,34 +192,34 @@
                 ?>
                 </select>
             </div>
-            <button type="button" class="col-lg-2 btn btn-primary pull-right" data-toggle="collapse" data-target="#newTo" style="margin-left: 0;">New</button>
-            <div id="newTo" class="collapse col-lg-12">
-                <?php
-                echo"<input id='newToAccountType' type='hidden' name='account_type' value='{$from_account_type}'>";
-                echo"
-                                <h3>New {$to_name}</h3>
-                                <label for='name'>Name</label>
-                                <input id='newToAccountName' class='form-control' type='text' name='name' value=''>";
-                if($to_account_type == 0 || $to_account_type == 3 || $to_account_type == 4){
-                    echo"
-                                <label for='balance'>Balance</label>
-                                <input id='newToAccountBalance' class='form-control' type='number' name='balance' step='.01' value='0'>";
-                    if($to_account_type == 0){
-                        echo"
-                                        <label for='type'>Type</label>
-                                        <select id='newToAccountBalanceType' class='form-control selectpicker' name='type'>
-                                            <option value='0' selected='selected'>Debit</option>
-                                            <option value='1'>Credit</option>
-                                        </select>";
-                    }
-
-                }
-                echo
-                "&nbsp;
-                            <button id='newToBtn' type='button' class='form-control btn btn-primary' data-toggle='collapse' data-target='#newTo'>Create</button>
-                            &nbsp;";
-                ?>
-            </div>
+<!--            <button type="button" class="col-lg-2 col-xs-12 btn btn-primary pull-right" data-toggle="collapse" data-target="#newTo" style="margin-left: 0;">New</button>-->
+<!--            <div id="newTo" class="collapse col-lg-12">-->
+<!--                --><?php
+//                echo"<input id='newToAccountType' type='hidden' name='account_type' value='{$from_account_type}'>";
+//                echo"
+//                                <h3>New {$to_name}</h3>
+//                                <label for='name'>Name</label>
+//                                <input id='newToAccountName' class='form-control' type='text' name='name' value=''>";
+//                if($to_account_type == 0 || $to_account_type == 3 || $to_account_type == 4){
+//                    echo"
+//                                <label for='balance'>Balance</label>
+//                                <input id='newToAccountBalance' class='form-control' type='number' name='balance' step='.01' value='0'>";
+//                    if($to_account_type == 0){
+//                        echo"
+//                                        <label for='type'>Type</label>
+//                                        <select id='newToAccountBalanceType' class='form-control selectpicker' name='type'>
+//                                            <option value='0' selected='selected'>Debit</option>
+//                                            <option value='1'>Credit</option>
+//                                        </select>";
+//                    }
+//
+//                }
+//                echo
+//                "&nbsp;
+//                            <button id='newToBtn' type='button' class='form-control btn btn-primary' data-toggle='collapse' data-target='#newTo'>Create</button>
+//                            &nbsp;";
+//                ?>
+<!--            </div>-->
             <?php echo"<input type='hidden' name='transaction_type' value='{$type}'>"; ?>
             <input style="margin-top:5%;" class="form-control btn btn-primary" type="submit" value="Submit">
         </form>

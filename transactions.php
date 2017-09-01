@@ -8,12 +8,12 @@
     require_once('db.php');
     require_once('header.php');
     if(!($connection = mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
-        showerror($connection);
+        error("6-1-7");
     }
-    $user_id = logincheck("6-1", "6-2");
-    $menu = getHeaderInfo("6-4");
+    $user_id = logincheck("6-2", "6-3");
+    $menu = getHeaderInfo("6-4", "6-5");
     //Account Types that can be from accounts (0,2,3,1)
-    $query = "select account_name, account_id from accounts where (account_type <= 3)";
+    $query = "select account_name, account_id from accounts where (account_type <= 3) and user_id = {$user_id}";
     if(($result = @ mysqli_query($connection, $query))==FALSE){
         error("6-5-6");
     }
@@ -26,7 +26,7 @@
     }
     $tos = "<option selected='selected' value='0'>None</option>";
     //Account Types that can be to accounts (0,1,2,4)
-    $query = "select account_name, account_id from accounts where (account_type != 3)";
+    $query = "select account_name, account_id from accounts where (account_type != 3) and user_id= $user_id";
     if(($result = @ mysqli_query($connection, $query))==FALSE){
         error("6-6-6");
     }

@@ -11,12 +11,12 @@
         error("13-1-7");
     }
     $user_id = logincheck("13-2", "13-3");
-    $menu = getHeaderInfo("13-4");
+    $menu = getHeaderInfo("13-4", "13-5");
     if(count($_POST)){
         $id = validNumbers($_POST['id'], 10);
     }
     if(empty($id)){
-        error("13-5-1");
+        error("13-6-1");
     }
 ?>
 <!DOCTYPE HTML>

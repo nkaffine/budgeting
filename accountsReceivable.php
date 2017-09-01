@@ -11,11 +11,11 @@
         error("19-1-7");
     }
     $user_id = logincheck("19-2", "19-3");
-    $menu = getHeaderInfo("19-4");
+    $menu = getHeaderInfo("19-4", "19-5");
     $query = "select account_name, account_id, account_type, curr_balance from accounts where user_id = {$user_id} and ".
         "account_type = 3";
     if(($ar = @ mysqli_query($connection, $query))==FALSE){
-        error("19-5-6");
+        error("19-6-6");
     }
 ?>
 <!DOCTYPE HTML>
@@ -53,9 +53,10 @@
                     $account_id = $row['account_id'];
                     $account_name = $row['account_name'];
                     $curr_balance = $row['curr_balance'];
+                    $link = "account.php?account_id=".urlencode($account_id);
                     echo"<tr>
-                                                <td>{$account_name}</td>
-                                                <td>$"."{$curr_balance}</td>
+                                                <td><a href='{$link}'>{$account_name}</a></td>
+                                                <td style='color:green'>$"."{$curr_balance}</td>
                                                 <td>
                                                     <form action='editAccount.php' method='post'>
                                                         <input type='hidden' name='id' value='{$account_id}'>

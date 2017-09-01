@@ -11,34 +11,36 @@
         error("24-1-7");
     }
     $user_id = logincheck("24-2", "24-3");
-    $menu = getHeaderInfo("24-4");
+    $menu = getHeaderInfo("24-4", "24-5");
     if(count($_GET)){
         $account_id = validNumbers($_GET['account_id'], 10);
     }
     if(empty($account_id)){
-        error("24-5-1");
+        error("24-6-1");
     }
-    $query = "select account_name, init_balance, curr_balance from accounts where user_id = {$user_id} and account_id = {$account_id}";
+    $query = "select account_name, init_balance, curr_balance, account_type from accounts where user_id = {$user_id} and "."
+    account_id = {$account_id} and active = 1";
     if(($result = @ mysqli_query($connection, $query))==FALSE){
-        error("24-6-6");
+        error("24-7-6");
     }
     if(notUnique($result)){
-        error("24-7-3");
+        error("24-8-3");
     }
     $row = @ mysqli_fetch_array($result);
     $account_name = $row['account_name'];
     $init_balance = $row['init_balance'];
     $curr_balance = $row['curr_balance'];
+    $account_type = $row['account_type'];
     $query = "select transaction_name, description, amount, type, transaction_date, from_account, (select account_name from ".
         "accounts where account_id = from_account and user_id = {$user_id}) as from_name, (select balance_type from accounts ".
         "where user_id = {$user_id} and account_id = from_account) as from_type, to_account, (select account_name ".
         "from accounts where account_id = to_account and user_id = {$user_id}) as to_name, (select balance_type from accounts ".
         "where user_id = {$user_id} and account_id = to_account) as to_type from transactions where ".
-        "(to_account = {$account_id} or from_account = {$account_id}) and user_id = {$user_id} order by ".
+        "(to_account = {$account_id} or from_account = {$account_id}) and user_id = {$user_id} and active = 1 order by ".
         "transaction_date desc, date_added desc limit 20";
     if(($result = @ mysqli_query($connection,$query))==FALSE){
         debug($query);
-        error("24-8-6");
+        error("24-9-6");
     }
 ?>
 <!DOCTYPE HTML>
@@ -71,10 +73,12 @@
         <div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
             <div class="box col-lg-12">
                 <?php echo"
-                    <h1>{$account_name}</h1>
-                    <h2>Current Balance: $"."{$curr_balance}</h2>
-                    <h2>Starting Balance: $"."{$init_balance}</h2>
-                    ";
+                    <h1>{$account_name}</h1>";
+                    if($account_type != 1 && $account_type != 2){
+                        echo"<h2>Current Balance: $"."{$curr_balance}</h2>
+                        <h2>Starting Balance: $"."{$init_balance}</h2>
+                        ";
+                    }
                 ?>
             </div>
             <div class="box col-lg-12" style="margin-top:2%;">
@@ -101,10 +105,10 @@
                                         $to_name = $row['to_name'];
                                         $to_type = $row['to_type'];
                                         $from_type = $row['from_type'];
-                                        if($type == 1 || $type == 4){
+                                        if($type == 1 || $type == 3){
                                             $prefix = "+";
                                             $color = "green";
-                                        } else if($type == 0 || $type == 6) {
+                                        } else if($type == 0 || $type == 5) {
                                             $prefix = "-";
                                             $color = "red";
                                         } else if($type == 2){

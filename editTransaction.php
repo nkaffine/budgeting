@@ -11,22 +11,22 @@
         error("22-1-7");
     }
     $user_id = logincheck("22-2", "22-3");
-    $menu = getHeaderInfo("22-4");
+    $menu = getHeaderInfo("22-4", "22-5");
     if(count($_POST)){
         $transaction_id = validNumbers($_POST['transaction_id'], 10);
     }
     if(!isset($transaction_id)){
-        error("22-5-1");
+        error("22-6-1");
     }
     $query = "select transaction_name, description, amount, transaction_date, from_account, (select account_name from ".
         "accounts where user_id = {$user_id} and account_id = from_account) as from_name, to_account, (select account_name ".
         "from accounts where user_id = {$user_id} and account_id = to_account) as to_name, type from ".
         "transactions where user_id = {$user_id} and transaction_id = {$transaction_id}";
     if(($result = @ mysqli_query($connection, $query))==FALSE){
-        error("22-6-6");
+        error("22-7-6");
     }
     if(notUnique($result)){
-        error('22-7-3');
+        error('22-8-3');
     }
     $row = @ mysqli_fetch_array($result);
     $transaction_name = $row['transaction_name'];
@@ -111,17 +111,17 @@
             break;
         default :
             //The transaction is one that has not been recognized
-            error("22-8-2");
+            error("22-9-2");
     }
     $query = "select account_name, account_id from accounts where account_type = {$from_account_type} and ".
         "user_id = {$user_id} and active = 1";
     if(($from_accounts = @ mysqli_query($connection, $query))==FALSE){
-        error("22-9-6");
+        error("22-10-6");
     }
     $query = "select account_name, account_id from accounts where account_type = {$to_account_type} and ".
         "user_id = {$user_id} and active = 1";
     if(($to_accounts = @ mysqli_query($connection, $query))==FALSE){
-        error("22-10-6");
+        error("22-11-6");
     }
 ?>
 <!DOCTYPE HTML>

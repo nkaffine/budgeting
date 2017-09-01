@@ -11,14 +11,14 @@
         error("17-1-7");
     }
     $user_id = logincheck("17-2", "17-3");
-    $menu = getHeaderInfo("17-4");
+    $menu = getHeaderInfo("17-4", "17-5");
     $query = "select account_id, account_name from accounts where user_id = {$user_id} and account_type = 1";
     if(($spending = @ mysqli_query($connection, $query))==FALSE){
-        error("17-5-6");
+        error("17-6-6");
     }
     $query = "select account_id, account_name from accounts where user_id = {$user_id} and account_type = 2";
     if(($earning = @ mysqli_query($connection, $query))==FALSE){
-        error("17-6-6");
+        error("17-7-6");
     }
 ?>
 <!DOCTYPE HTML>
@@ -55,8 +55,9 @@
                                     while($row = @ mysqli_fetch_array($spending)){
                                         $name = $row['account_name'];
                                         $account_id = $row['account_id'];
+                                        $link = "account.php?account_id=".urlencode($account_id);
                                         echo"<tr>
-                                                <td>{$name}</td>
+                                                <td><a href='{$link}'>{$name}</a></td>
                                                 <td>
                                                     <form action='editAccount.php' method='post'>
                                                         <input type='hidden' name='id' value='{$account_id}'>
@@ -96,8 +97,9 @@
                     while($row = @ mysqli_fetch_array($earning)){
                         $name = $row['account_name'];
                         $account_id = $row['account_id'];
+                        $link = "account.php?account_id=" . urlencode($account_id);
                         echo"<tr>
-                                <td>{$name}</td>
+                                <td><a href='{$link}'>{$name}</a></td>
                                 <td>
                                     <form action='editAccount.php' method='post'>
                                         <input type='hidden' name='id' value='{$account_id}'>

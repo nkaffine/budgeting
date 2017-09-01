@@ -11,11 +11,11 @@
         error("14-1-7");
     }
     $user_id = logincheck("14-2", "14-3");
-    $menu = getHeaderInfo("14-4");
-    $query = "select account_id, account_name, init_balance, curr_balance from accounts where ".
+    $menu = getHeaderInfo("14-4", "14-5");
+    $query = "select account_id, account_name, init_balance, curr_balance, balance_type from accounts where ".
         "user_id = {$user_id} and active = 1 and account_type = 0";
     if(($accounts = @ mysqli_query($connection, $query))==FALSE){
-        error("14-5-6");
+        error("14-6-6");
     }
 ?>
 <!DOCTYPE HTML>
@@ -55,10 +55,21 @@
                                 $id = $row['account_id'];
                                 $init_balance = $row['init_balance'];
                                 $curr_balance = $row['curr_balance'];
+                                $balance_type = $row['balance_type'];
+                                if($balance_type == 1){
+                                    $color = "red";
+                                    $prefix = "(";
+                                    $suffix = ")";
+                                } else {
+                                    $color = "green";
+                                    $prefix = "";
+                                    $suffix = "";
+                                }
+                                $link = "account.php?id=".urlencode($id);
                                 echo"<tr>
-                                        <td>{$name}</td>
-                                        <td>$"."{$init_balance}</td>
-                                        <td>$"."{$curr_balance}</td>
+                                        <td><a href='{$link}'>{$name}</a></td>
+                                        <td style='color:{$color}'>$".$prefix."{$init_balance}".$suffix."</td>
+                                        <td style='color:{$color}'>$".$prefix."{$curr_balance}".$suffix."</td>
                                         <td>
                                             <form action='editAccount.php' method='post'>
                                                 <input type='hidden' name='id' value='{$id}'>

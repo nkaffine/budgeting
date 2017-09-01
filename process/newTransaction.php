@@ -74,7 +74,7 @@
         case 3:
             //Account receivable transaction
             //Increase from account
-            //decreaseAccount($from_id, $amount, "11-25", "11-26", "11-27","11-28");
+            decreaseAccount($from_id, $amount, "11-25", "11-26", "11-27","11-28");
             increaseAccount($to_id, $amount, "11-29", "11-30", "11-31", "11-32");
             break;
         case 4:
@@ -87,14 +87,14 @@
         case 5:
             //Accounts Payable Transaction
             //Increase to Account
-            increaseAccount($to_id, $amount, "11-41", "11-42", '11-43', "11-44");
+            decreaseAccount($to_id, $amount, "11-41", "11-42", '11-43', "11-44");
             break;
         case 6:
             //Accounts Paid Transaction
             //Decrease from Account
             decreaseAccount($from_id, $amount, "11-45", "11-46", "11-47", "11-48");
             //Decrease Decrease To Account
-            decreaseAccount($to_id, $amount, "11-49", "11-50", "11-51", "11-52");
+            increaseAccount($to_id, $amount, "11-49", "11-50", "11-51", "11-52");
             break;
     }
     mysqli_commit($connection);

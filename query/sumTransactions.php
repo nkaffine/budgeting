@@ -34,7 +34,7 @@
     if(empty($method)){
         error("8-8-1");
     }
-    $query = "select ".$method."(if(type = 0, -amount, amount)) as total from transactions";
+    $query = "select ".$method."(if(type = 0 or type = 5, -amount, if(type = 1 or type = 3, amount, 0))) as total from transactions";
     $query = $query . " where user_id = {$user_id} and active = 1";
     if(isset($start) || isset($end) || isset($to) || isset($from) || isset($search) || isset($type)){
         $query = $query. " and ";

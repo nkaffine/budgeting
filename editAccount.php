@@ -11,7 +11,7 @@
         error("15-1-7");
     }
     $user_id = logincheck("15-2", "15-3");
-    $menu = getHeaderInfo("15-4");
+    $menu = getHeaderInfo("15-4", "15-5");
     if(count($_POST)){
         if(isset($_POST['id'])){
             $account_id = validNumbers($_POST['id'], 10);
@@ -30,12 +30,12 @@
         }
     }
     if(!isset($type)|| !isset($account_id) || !isset($name)){
-        error("15-5-1");
+        error("15-6-1");
     }
     switch($type){
         case 0:
             if(!isset($curr_balance) || !isset($init_balance)){
-                error("15-6-1");
+                error("15-7-1");
             }
             break;
         case 1:
@@ -47,7 +47,7 @@
         case 4:
             break;
         default:
-            error("15-7-2");
+            error("15-8-2");
     }
 ?>
 <!DOCTYPE HTML>

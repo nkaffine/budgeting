@@ -8,13 +8,13 @@
     require_once('db.php');
     require_once('header.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
-        showerror($connection);
+        error("9-1-7");
     }
     if(count($_POST)){
         $type = validNumbers($_POST['type'],1);
     }
     $user_id = logincheck("9-2", "9-3");
-    $menu = getHeaderInfo("9-1");
+    $menu = getHeaderInfo("9-4", "9-5");
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -47,7 +47,7 @@
                     echo "<label for='balance'>Account Balance</label>
                     <input class='form-control' type='number' name='balance' step='.01' value='0'>
                     <label for='type'>Account Type</label>
-                    <select class='form-control selectpicker' name='type'>
+                    <select class='form-control selectpicker' name='balance_type'>
                         <option value='0' selected='selected'>Debit</option>
                         <option value='1'>Credit</option>
                     </select>";

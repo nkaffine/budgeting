@@ -5,10 +5,11 @@
  * Date: 8/10/17
  * Time: 8:54 PM
  */
-    function getHeaderInfo($page1){
+    function getHeaderInfo($page1, $page2){
         global $connection;
+        global $user_id;
         $query = "select account_name, curr_balance, account_id from accounts where active = true and ".
-            "account_type = 0";
+            "account_type = 0 and user_id = {$user_id}";
         if(($result = @ mysqli_query($connection, $query))==FALSE){
             error($page1 . "-6");
         }
@@ -22,6 +23,20 @@
             $menu = $menu . "<li><a href='" . $link . "'><div style='font-weight: bold;'>" . $name . "</div><div>$" . $balance . "</div></a></li>";
         }
         $menu = $menu . "</ul></li>";
+        $menu = array($menu);
+        $query = "select sum(if(balance_type = 1, curr_balance * -1, curr_balance)) as equity from accounts where user_id = {$user_id}";
+        if(($result = @ mysqli_query($connection, $query))==FALSE){
+            debug($query);
+            error($page2 . "-30");
+        }
+        $row = @ mysqli_fetch_array($result);
+        $equity = $row['equity'];
+        if($equity >= 0){
+            $equity = "$".$equity;
+        } else {
+            $equity = "$(".$equity.")";
+        }
+        array_push($menu, $equity);
         return $menu;
     }
 
@@ -45,9 +60,10 @@
                             <li><a href='accountsPayable.php'>Accounts Payable</a></li>
                             <li><a href='accountsReceivable.php'>Accounts Receivable</a></li>
                         </ul>
-                        <ul class='nav navbar-nav navbar-right'>";
-                    echo"{$menu}";
-                    echo"</ul>
+                        <ul class='nav navbar-nav navbar-right'>
+                            <li><a class='nonClickA'>Equity: {$menu[1]}</a></li>";
+                        echo"{$menu[0]}";
+                        echo"</ul>
                     </div>
                 </div>
             </nav>";

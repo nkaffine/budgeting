@@ -11,7 +11,7 @@
         error("20-1-7");
     }
     $user_id = logincheck("20-2", "20-3");
-    $menu = getHeaderInfo("20-4");
+    $menu = getHeaderInfo("20-4", "20-5");
     if(count($_POST)){
         if(isset($_POST['account_id'])){
             $account_id = validNumbers($_POST['account_id'], 10);
@@ -21,7 +21,7 @@
         }
     }
     if(!isset($type) || !isset($account_id)){
-        error("20-5-1");
+        error("20-6-1");
     }
 ?>
 <!DOCTYPE HTML>

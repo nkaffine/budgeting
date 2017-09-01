@@ -8,16 +8,16 @@
     require_once('db.php');
     require_once('header.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
-        showerror($connection);
+        error("4-1-7");
     }
-    $user_id = logincheck("4-1", "4-2");
-    $menu = getHeaderInfo("4-3");
-    $query = "select transaction_name, amount, transaction_date, type from transactions where active = 1 order by ".
-        "transaction_date desc, date_added desc limit 10";
+    $user_id = logincheck("4-2", "4-3");
+    $menu = getHeaderInfo("4-4", "4-5");
+    $query = "select transaction_name, amount, transaction_date, type from transactions where active = 1 and user_id = ".
+        "{$user_id} order by transaction_date desc, date_added desc limit 10";
     if(($recent_transactions = @ mysqli_query($connection, $query))==FALSE){
         error("4-4-6");
     }
-    $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
+    $query = "select account_id, account_name, curr_balance, balance_type from accounts where user_id = {$user_id} and ".
         "account_type = 0 and active = 1";
     if(($personal_accounts = @ mysqli_query($connection, $query))==FALSE){
         error("4-5-6");
@@ -137,10 +137,10 @@
                                 $amount = $row['amount'];
                                 $date = $row['transaction_date'];
                                 $type = $row['type'];
-                                if($type == 1 || $type == 4){
+                                if($type == 1 || $type == 3){
                                     $color = "green";
                                     $prefix = "+";
-                                } else if($type == 0 || $type == 6) {
+                                } else if($type == 0 || $type == 5) {
                                     $color = "red";
                                     $prefix = "-";
                                 } else {
@@ -182,10 +182,20 @@
                                     $name = $row['account_name'];
                                     $account_id = $row['account_id'];
                                     $curr_balance = $row['curr_balance'];
+                                    $balance_type = $row['balance_type'];
+                                    if($balance_type == 1){
+                                        $color = "red";
+                                        $prefix = "(";
+                                        $suffix = ")";
+                                    } else {
+                                        $color = "green";
+                                        $prefix = "";
+                                        $suffix = "";
+                                    }
                                     $link = 'account.php?account_id=' . $account_id;
                                     echo"<tr>
                                             <td><a href='{$link}'>{$name}</a></td>
-                                            <td>$".$curr_balance."</td>
+                                            <td style='color:{$color};'>$".$prefix.$curr_balance.$suffix."</td>
                                         </tr>";
                                 }
                             ?>
@@ -218,7 +228,7 @@
                                 $link = 'account.php?account_id=' . $account_id;
                                 echo"<tr>
                                         <td><a href='{$link}'>{$name}</a></td>
-                                        <td>$".$account_balance."</td>
+                                        <td style='color:red'>$(".$account_balance.")</td>
                                     </tr>";
                             }
                             ?>
@@ -252,7 +262,7 @@
                                 $link = 'account.php?account_id=' . $account_id;
                                 echo"<tr>
                                     <td><a href='{$link}'>{$name}</a></td>
-                                    <td>$".$account_balance."</td>
+                                    <td style='color:green;'>$".$account_balance."</td>
                                 </tr>";
                             }
                             ?>

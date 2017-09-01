@@ -77,9 +77,9 @@ function getTransactions(start, end, from, to, query, type){
                 var from_type = transactionElem.getAttribute('from_type');
                 html = html + "<tr>"+
                     "<td>"+name+"</td>";
-                if(type == 0 || type == 6){
+                if(type == 0 || type == 5){
                     html = html + "<td style='color: red;'>-$" + amount + "</td>";
-                } else if (type == 1 || type == 4) {
+                } else if (type == 1 || type == 3) {
                     html = html + "<td style='color: green;'>+$" + amount + "</td>";
                 } else {
                     if(to_type = from_type){
