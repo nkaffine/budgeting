@@ -15,6 +15,25 @@
     }
     $user_id = logincheck("9-2", "9-3");
     $menu = getHeaderInfo("9-4", "9-5");
+    switch($type){
+        case 0:
+            $account_type = "Account";
+            break;
+        case 1:
+            $account_type = "Spending Category";
+            break;
+        case 2:
+            $account_type = "Earning Category";
+            break;
+        case 3:
+            $account_type = "Accounts Receivable Account";
+            break;
+        case 4:
+            $account_type = "Accounts Payable Account";
+            break;
+        default:
+            break;
+    }
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -38,8 +57,8 @@
     <body>
         <?php placeHeader($menu) ?>
         <form class="box col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1" action="process/newAccount.php" method="get">
-            <h1>New Account</h1>
-            <label for="name">Account Name</label>
+            <?php echo"<h1>New {$account_type}</h1>";?>
+            <?php echo"<label for='name'>{$account_type} Name</label>"; ?>
             <input class="form-control" type="text" name="name" value="">
             <?php
                 echo"<input type='hidden' name='account_type' value='{$type}'>";
