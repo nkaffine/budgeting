@@ -38,7 +38,14 @@
     <body>
         <?php placeHeader($menu)?>
         <div class="box col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
-            <h1>Accounts Payable</h1>
+            <h1 class="col-lg-6 col-xs-12">Accounts Payable</h1>
+            <h1>
+                <form action="newAccount.php" method="post">
+                    <input type="hidden" name="type" value="4">
+                    <input type="submit" value="New" class="visible-xs col-xs-12 btn btn-primary pull-right" style="margin-top:1%;">
+                    <input type="submit" value="New" class="hidden-xs btn btn-primary pull-right" style="margin-top:1%;">
+                </form>
+            </h1>
             <?php
                 if(mysqli_num_rows($ap) > 0){
                     echo"<table class='table table-striped col-lg-12'>
@@ -46,7 +53,7 @@
                                 <th>Name</th>
                                 <th>Current Balance</th>
                                 <th></th>
-                                <th></th>
+                                <th class='hidden-xs'></th>
                             </thead>
                             <tbody>";
                             while($row = @ mysqli_fetch_array($ap)){
@@ -65,7 +72,7 @@
                                                 <input type='submit' value='Edit' class='btn btn-default'>
                                             </form>
                                         </td>
-                                        <td>
+                                        <td class='hidden-xs'>
                                             <form action='deleteAccount.php' method='post'>
                                                 <input type='hidden' name='account_id' value='{$account_id}'>
                                                 <input type='hidden' name='type' value='4'>

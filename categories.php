@@ -42,7 +42,14 @@
         <?php placeHeader($menu)?>
         <div class="col-lg-8 col-lg-offset-2 col-xs-10 col-xs-offset-1">
             <div class="box col-lg-5 col-lg-offset-1">
-                <h1>Spending Categories</h1>
+                <h1 class="col-lg-6 col-xs-12">Spending Categories</h1>
+                <h1>
+                    <form action="newAccount.php" method="post">
+                        <input type="hidden" name="type" value="1">
+                        <input type="submit" value="New" class="visible-xs col-xs-12 btn btn-primary pull-right" style="margin-top:1%;">
+                        <input type="submit" value="New" class="hidden-xs btn btn-primary pull-right" style="margin-top:1%;">
+                    </form>
+                </h1>
                 <?php
                     if(mysqli_num_rows($spending) > 0){
                         echo"<table class='table table-striped col-lg-12'>
@@ -84,7 +91,14 @@
                 ?>
             </div>
             <div class="box col-lg-5 col-lg-offset-1">
-                <h1>Earning Categories</h1>
+                <h1 class="col-lg-6 col-xs-12">Earning Categories</h1>
+                <h1>
+                    <form action="newAccount.php" method="post">
+                        <input type="hidden" name="type" value="2">
+                        <input type="submit" value="New" class="visible-xs col-xs-12 btn btn-primary pull-right" style="margin-top:1%;">
+                        <input type="submit" value="New" class="hidden-xs btn btn-primary pull-right" style="margin-top:1%;">
+                    </form>
+                </h1>
                 <?php
                 if(mysqli_num_rows($earning) > 0){
                     echo"<table class='table table-striped col-lg-12'>

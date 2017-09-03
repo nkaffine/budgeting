@@ -38,16 +38,23 @@
     <body>
         <?php placeHeader($menu)?>
         <div class="box col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
-            <h1>Accounts</h1>
+            <h1 class="col-lg-6 col-xs-12">Accounts</h1>
+            <h1>
+                <form action="newAccount.php" method="post">
+                    <input type="hidden" name="type" value="0">
+                    <input type="submit" value="New" class="visible-xs col-xs-12 btn btn-primary pull-right" style="margin-top:1%;">
+                    <input type="submit" value="New" class="hidden-xs btn btn-primary pull-right" style="margin-top:1%;">
+                </form>
+            </h1>
             <?php
                 if(mysqli_num_rows($accounts) > 0){
                     echo"<table class='table table-striped col-lg-12'>
                             <thead>
                                 <th>Name</th>
-                                <th>Starting Balance</th>
+                                <th class='hidden-xs'>Starting Balance</th>
                                 <th>Current Balance</th>
                                 <th></th>
-                                <th></th>
+                                <th class='hidden-xs'></th>
                             </thead>
                             <tbody>";
                             while($row = @ mysqli_fetch_array($accounts)){
@@ -65,10 +72,10 @@
                                     $prefix = "";
                                     $suffix = "";
                                 }
-                                $link = "account.php?id=".urlencode($id);
+                                $link = "account.php?account_id=".urlencode($id);
                                 echo"<tr>
                                         <td><a href='{$link}'>{$name}</a></td>
-                                        <td style='color:{$color}'>$".$prefix."{$init_balance}".$suffix."</td>
+                                        <td class='hidden-xs' style='color:{$color}'>$".$prefix."{$init_balance}".$suffix."</td>
                                         <td style='color:{$color}'>$".$prefix."{$curr_balance}".$suffix."</td>
                                         <td>
                                             <form action='editAccount.php' method='post'>
@@ -80,7 +87,7 @@
                                                 <input type='submit' value='Edit' class='btn btn-default'>
                                             </form>
                                         </td>
-                                        <td>
+                                        <td class='hidden-xs'>
                                             <form action='deleteAccount.php' method='post'>
                                                 <input type='hidden' name='account_id' value='{$id}'>
                                                 <input type='hidden' name='type' value='0'>
