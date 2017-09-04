@@ -13,7 +13,7 @@
     $user_id = logincheck("19-2", "19-3");
     $menu = getHeaderInfo("19-4", "19-5");
     $query = "select account_name, account_id, account_type, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 3";
+        "account_type = 3 and active = 1";
     if(($ar = @ mysqli_query($connection, $query))==FALSE){
         error("19-6-6");
     }

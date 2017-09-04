@@ -12,11 +12,11 @@
     }
     $user_id = logincheck("17-2", "17-3");
     $menu = getHeaderInfo("17-4", "17-5");
-    $query = "select account_id, account_name from accounts where user_id = {$user_id} and account_type = 1";
+    $query = "select account_id, account_name from accounts where user_id = {$user_id} and account_type = 1 and active = 1";
     if(($spending = @ mysqli_query($connection, $query))==FALSE){
         error("17-6-6");
     }
-    $query = "select account_id, account_name from accounts where user_id = {$user_id} and account_type = 2";
+    $query = "select account_id, account_name from accounts where user_id = {$user_id} and account_type = 2 and active = 1";
     if(($earning = @ mysqli_query($connection, $query))==FALSE){
         error("17-7-6");
     }

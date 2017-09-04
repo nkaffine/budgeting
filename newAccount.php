@@ -71,7 +71,8 @@
                         <option value='1'>Credit</option>
                     </select>";
                 } else if($type == 3 || $type == 4){
-                    echo"<input type='hidden' name='balance' value='0'>";
+                    echo"<label for='balance'>Account Balance</label>
+                        <input class='form-control' type='number' step='.01' name='balance' value='0'>";
                 }
                 if($type == 3){
                     echo"<input type='hidden' name='balance_type' value='0'>";

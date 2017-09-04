@@ -12,8 +12,8 @@
     }
     $user_id = logincheck("18-2", "18-3");
     $menu = getHeaderInfo("18-4", "18-5");
-    $query = "select account_name, account_id, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 4";
+    $query = "select account_name, account_id, curr_balance, init_balance from accounts where user_id = {$user_id} and ".
+        "account_type = 4 and active = 1";
     if(($ap = @ mysqli_query($connection, $query))==FALSE){
         error('18-6-6');
     }
@@ -60,6 +60,7 @@
                                 $account_id = $row['account_id'];
                                 $account_name = $row['account_name'];
                                 $curr_balance = $row['curr_balance'];
+                                $init_balance = $row['init_balance'];
                                 $link = "account.php?account_id=".urlencode($account_id);
                                 echo"<tr>
                                         <td><a href='{$link}'>{$account_name}</a></td>
@@ -68,6 +69,8 @@
                                             <form action='editAccount.php' method='post'>
                                                 <input type='hidden' name='id' value='{$account_id}'>
                                                 <input type='hidden' name='name' value='{$account_name}'>
+                                                <input type='hidden' name='curr_balance' value='{$curr_balance}'>
+                                                <input type='hidden' name='init_balance' value='{$init_balance}'>
                                                 <input type='hidden' name='type' value='4'>
                                                 <input type='submit' value='Edit' class='btn btn-default'>
                                             </form>

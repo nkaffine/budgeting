@@ -34,7 +34,7 @@
         error("16-5-1");
     }
     $query = "update accounts set account_name = '{$name}'";
-    if($type == 0){
+    if($type == 0 || $type == 3 || $type == 4){
         $query1 = "select curr_balance, init_balance from accounts where account_id = {$account_id} and user_id = {$user_id}";
         if(($result = @ mysqli_query($connection, $query1))==FALSE){
             error("16-6-6");

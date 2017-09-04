@@ -73,10 +73,26 @@
         <div class="col-lg-6 col-lg-offset-3 col-xs-10 col-xs-offset-1">
             <div class="box col-lg-12">
                 <?php echo"
-                    <h1>{$account_name}</h1>";
+                    <h1 class='col-lg-6'>{$account_name}</h1>
+                    <h1 class='col-lg-6'>
+                        <form id='editForm' action='editAccount.php' method='post'>
+                            <input type='hidden' name='id' value='{$id}'>
+                            <input type='hidden' name='curr_balance' value='{$curr_balance}'>
+                            <input type='hidden' name='init_balance' value='{$init_balance}'>
+                            <input type='hidden' name='name' value='{$account_name}'>
+                            <input type='hidden' name='type' value='{$account_type}'>
+                        </form>
+                        <form id='deleteForm' action='deleteAccount.php' method='post'>
+                            <input type='hidden' name='account_id' value='{$id}'>
+                            <input type='hidden' name='type' value='{$account_type}'>
+                        </form>
+                        <button form='editForm' type='submit' class='btn btn-default pull-right'>Edit</button>
+                        <button form='deleteForm' type='submit' class='btn btn-default pull-right'>Delete</button>
+                    </h1>";
                     if($account_type != 1 && $account_type != 2){
-                        echo"<h2>Current Balance: $"."{$curr_balance}</h2>
-                        <h2>Starting Balance: $"."{$init_balance}</h2>
+                        echo"
+                        <h2 class='col-lg-12'>Starting Balance: $"."{$init_balance}</h>
+                        <h2 class='col-lg-12'>Current Balance: $"."{$curr_balance}</h2>
                         ";
                     }
                 ?>

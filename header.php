@@ -24,7 +24,7 @@
         }
         $menu = $menu . "</ul></li>";
         $menu = array($menu);
-        $query = "select sum(if(balance_type = 1, curr_balance * -1, curr_balance)) as equity from accounts where user_id = {$user_id}";
+        $query = "select sum(if(balance_type = 1, curr_balance * -1, curr_balance)) as equity from accounts where user_id = {$user_id} and active = 1";
         if(($result = @ mysqli_query($connection, $query))==FALSE){
             debug($query);
             error($page2 . "-30");

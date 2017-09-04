@@ -43,8 +43,14 @@
         case 2:
             break;
         case 3:
+            if(!isset($curr_balance) || !isset($init_balance)){
+                error("15-7-1");
+            }
             break;
         case 4:
+            if(!isset($curr_balance) || !isset($init_balance)){
+                error("15-7-1");
+            }
             break;
         default:
             error("15-8-2");
@@ -53,7 +59,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
     <head>
-        <title>Transactions</title>
+        <title>Edit Account</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -71,13 +77,13 @@
         <?php placeHeader($menu)?>
         <div class="box col-lg-4 col-lg-offset-4 col-xs-10 col-xs-offset-1">
             <form action="process/editAccount.php" method="post">
-                <h1>New Account</h1>
+                <h1>Edit Account</h1>
                 <label for="name">Account Name</label>
                 <?php echo"
                         <input class='form-control' type='text' name='name' value='{$name}'>
                         <input type='hidden' name='type' value='{$type}'>
                         <input type='hidden' name='account_id' value='{$account_id}'>";
-                if($type == 0){
+                if($type == 0 || $type == 3 || $type == 4){
                     echo"<label for='init_balance'>Starting Balance</label>
                         <input class='form-control' type='number' name='init_balance' step='.01' value='{$init_balance}'>
                         <label for='curr_balance'>Current Balance</label>
