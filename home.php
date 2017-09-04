@@ -119,6 +119,11 @@
                             <input class="btn btn-default form-control" type="submit" value="New Accounts Paid Transaction">
                             <input type="hidden" name="type" value="6">
                         </form>
+                        &nbsp;
+                        <form action="splitTransaction.php" method="post">
+                            <input class="btn btn-default form-control" type="submit" value="New Split Purchase Transaction">
+                            <input type="hidden" name="type" value="7">
+                        </form>
                     </div>
                 </div>
                 <div class='box1' style="margin-top: 5%; padding-bottom: 4%;">
