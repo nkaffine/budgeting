@@ -76,14 +76,14 @@
                     <h1 class='col-lg-6'>{$account_name}</h1>
                     <h1 class='col-lg-6'>
                         <form id='editForm' action='editAccount.php' method='post'>
-                            <input type='hidden' name='id' value='{$id}'>
+                            <input type='hidden' name='id' value='{$account_id}'>
                             <input type='hidden' name='curr_balance' value='{$curr_balance}'>
                             <input type='hidden' name='init_balance' value='{$init_balance}'>
                             <input type='hidden' name='name' value='{$account_name}'>
                             <input type='hidden' name='type' value='{$account_type}'>
                         </form>
                         <form id='deleteForm' action='deleteAccount.php' method='post'>
-                            <input type='hidden' name='account_id' value='{$id}'>
+                            <input type='hidden' name='account_id' value='{$account_id}'>
                             <input type='hidden' name='type' value='{$account_type}'>
                         </form>
                         <button form='editForm' type='submit' class='btn btn-default pull-right'>Edit</button>

@@ -7,7 +7,7 @@
  */
     require_once('../db.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
-        showerror($connection);
+        error("10-0-7");
     }
     $user_id = logincheck("10-1", "10-2");
     if(count($_GET)){
@@ -18,9 +18,15 @@
         if(isset($_GET['balance_type'])) {
             $balance_type = validNumbers($_GET['balance_type'], 1);
         }
-        $account_type = validNumbers($_GET['account_type'], 1);
+        if(isset($_GET['term'])){
+            $term = validNumbers($_GET['term'], 1);
+        }
+        if(isset($_GET['account_type'])){
+            $account_type = validNumbers($_GET['account_type'], 1);
+        }
     }
-    if(empty($name)|| isset($account_type) -1){
+    if(empty($name)|| !isset($account_type)){
+        error("10-3-1");
         header("Content-type: text/xml");
 
         $dom = new DOMDocument("1.0");
@@ -32,7 +38,7 @@
     } else {
         $query = "select max(account_id) from accounts";
         if(($result = @ mysqli_query($connection, $query))==FALSE){
-            showerror($connection);
+            error("10-4-6");
         }
         $row = @ mysqli_fetch_array($result);
         $account_id = $row['max(account_id)'] + 1;
@@ -46,11 +52,15 @@
             $columns = $columns . ", balance_type";
             $values = $values . ", {$balance_type}";
         }
+        if(isset($term)){
+            $columns = $columns . ", long_term";
+            $values = $values . ", {$term}";
+        }
         $columns = $columns . ")";
         $values = $values . ")";
         $query = "insert into accounts {$columns} values {$values}";
         if(($result = mysqli_query($connection, $query))==FALSE){
-            showerror($connection);
+            error("10-5-6");
         }
     }
     header("Location: ../home.php");

@@ -14,7 +14,7 @@
             error($page1 . "-6");
         }
         $menu = "<li class='dropdown'>
-                        <a class='dropdown-toggle' data-toggle='dropdown' href='#employeeof'>Accounts<span class='caret'></span></a>
+                        <a class='dropdown-toggle' data-toggle='dropdown'>Accounts<span class='caret'></span></a>
                         <ul class='dropdown-menu'>";
         while($row = @ mysqli_fetch_array($result)){
             $name = $row['account_name'];
@@ -24,6 +24,19 @@
         }
         $menu = $menu . "</ul></li>";
         $menu = array($menu);
+        $query = "select sum(if(balance_type = 1, curr_balance * -1, curr_balance)) as equity from accounts where user_id = {$user_id} and active = 1 and long_term = 0";
+        if(($result = @ mysqli_query($connection, $query))==FALSE){
+            debug($query);
+            error($page2 . "-30");
+        }
+        $row = @ mysqli_fetch_array($result);
+        $equity = $row['equity'];
+        if($equity >= 0){
+            $equity = "$".$equity;
+        } else {
+            $equity = "$(".$equity.")";
+        }
+        array_push($menu, $equity);
         $query = "select sum(if(balance_type = 1, curr_balance * -1, curr_balance)) as equity from accounts where user_id = {$user_id} and active = 1";
         if(($result = @ mysqli_query($connection, $query))==FALSE){
             debug($query);
@@ -34,6 +47,7 @@
         if($equity >= 0){
             $equity = "$".$equity;
         } else {
+            $equity = $equity * -1;
             $equity = "$(".$equity.")";
         }
         array_push($menu, $equity);
@@ -61,7 +75,12 @@
                             <li><a href='accountsReceivable.php'>Accounts Receivable</a></li>
                         </ul>
                         <ul class='nav navbar-nav navbar-right'>
-                            <li><a class='nonClickA'>Equity: {$menu[1]}</a></li>";
+                            <li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown'>Equity: {$menu[1]}<span class='caret'></span></a>
+                                <ul class='dropdown-menu'>
+                                    <li><a class='nonClickA'>Short Term: {$menu[1]}</a></li>
+                                    <li><a class='nonClickA'>Long Term: {$menu[2]}</a></li>
+                                </ul>
+                            </li>";
                         echo"{$menu[0]}";
                         echo"</ul>
                     </div>
