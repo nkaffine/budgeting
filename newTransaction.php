@@ -92,12 +92,12 @@
             //The transaction is one that has not been recognized
             error("2-5-2");
     }
-    $query = "select account_name, account_id from accounts where account_type = {$from_account_type} and ".
+    $query = "select account_name, account_id, curr_balance from accounts where account_type = {$from_account_type} and ".
         "user_id = {$user_id} and active = 1";
     if(($from_accounts = @ mysqli_query($connection, $query))==FALSE){
         showerror($connection);
     }
-    $query = "select account_name, account_id from accounts where account_type = {$to_account_type} and ".
+    $query = "select account_name, account_id, curr_balance from accounts where account_type = {$to_account_type} and ".
         "user_id = {$user_id} and active = 1";
     if(($to_accounts = @ mysqli_query($connection, $query))==FALSE){
         showerror($connection);
@@ -147,7 +147,13 @@
                 while($row = @ mysqli_fetch_array($from_accounts)){
                     $name = $row['account_name'];
                     $id = $row['account_id'];
-                    echo"<option value='{$id}'>{$name}</option>";
+                    $current_balance = $row['curr_balance'];
+                    if($type != 4){
+                        $inner = $name;
+                    } else {
+                        $inner = $name . " ($".$current_balance.")";
+                    }
+                    echo"<option value='{$id}'>{$inner}</option>";
                 }
                 ?>
                 </select>
@@ -187,7 +193,13 @@
                 while($row = @ mysqli_fetch_array($to_accounts)){
                     $name = $row['account_name'];
                     $id = $row['account_id'];
-                    echo"<option value='{$id}'>{$name}</option>";
+                    $current_balance = $row['curr_balance'];
+                    if($type != 6){
+                        $inner = $name;
+                    } else {
+                        $inner = $name . " ($".$current_balance.")";
+                    }
+                    echo"<option value='{$id}'>{$inner}</option>";
                 }
                 ?>
                 </select>
