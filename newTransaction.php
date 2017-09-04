@@ -92,13 +92,17 @@
             //The transaction is one that has not been recognized
             error("2-5-2");
     }
-    $query = "select account_name, account_id, curr_balance from accounts where account_type = {$from_account_type} and ".
-        "user_id = {$user_id} and active = 1";
+    $query = "select account_name, account_id, curr_balance from accounts inner join (select account_id, count(account_id) ".
+        "as freq from (select from_account as account_id from transactions where user_id = 1 union all select to_account ".
+        "as account_id from transactions where user_id = {$user_id}) as r1 group by account_id) as r2 using (account_id) where account_type = ".
+        "{$from_account_type} and user_id = {$user_id} and active = 1 order by freq desc";
     if(($from_accounts = @ mysqli_query($connection, $query))==FALSE){
         showerror($connection);
     }
-    $query = "select account_name, account_id, curr_balance from accounts where account_type = {$to_account_type} and ".
-        "user_id = {$user_id} and active = 1";
+    $query = "select account_name, account_id, curr_balance from accounts inner join (select account_id, count(account_id) ".
+        "as freq from (select from_account as account_id from transactions where user_id = 1 union all select to_account ".
+        "as account_id from transactions where user_id = {$user_id}) as r1 group by account_id) as r2 using (account_id) ".
+        "where account_type = {$to_account_type} and user_id = {$user_id} and active = 1 order by freq desc";
     if(($to_accounts = @ mysqli_query($connection, $query))==FALSE){
         showerror($connection);
     }
