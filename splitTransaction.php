@@ -5,7 +5,7 @@
  * Date: 9/3/17
  * Time: 5:03 PM
  */
-    require_once('db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
     require_once('header.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
         error("25-0-7");

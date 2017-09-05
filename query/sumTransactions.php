@@ -5,7 +5,7 @@
  * Date: 8/11/17
  * Time: 10:45 PM
  */
-    require_once('../db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))) {
         error("8-1-7");
     }
@@ -75,6 +75,6 @@
     while($row = mysqli_fetch_array($result)){
         $transaction = $dom->createElement("transaction");
         $newTransaction = $transactionsNode->appendChild($transaction);
-        $newTransaction->setAttribute("amount", $row['total']);
+        $newTransaction->setAttribute("amount", commaSeparate($row['total']));
     }
     echo $dom->saveXML();

@@ -5,7 +5,7 @@
  * Date: 8/27/17
  * Time: 6:48 PM
  */
-    require_once('db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
     require_once('header.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
         error("24-1-7");
@@ -90,9 +90,11 @@
                         <button form='deleteForm' type='submit' class='btn btn-default pull-right'>Delete</button>
                     </h1>";
                     if($account_type != 1 && $account_type != 2){
+                        $display1 = commaSeparate($init_balance);
+                        $display2 = commaSeparate($curr_balance);
                         echo"
-                        <h2 class='col-lg-12'>Starting Balance: $"."{$init_balance}</h>
-                        <h2 class='col-lg-12'>Current Balance: $"."{$curr_balance}</h2>
+                        <h2 class='col-lg-12'>Starting Balance: $"."{$display1}</h>
+                        <h2 class='col-lg-12'>Current Balance: $"."{$display2}</h2>
                         ";
                     }
                 ?>
@@ -113,7 +115,7 @@
                                 <tbody>";
                                     while($row = @ mysqli_fetch_array($result)){
                                         $name = $row['transaction_name'];
-                                        $amount = $row['amount'];
+                                        $amount = commaSeparate($row['amount']);
                                         $description = $row['description'];
                                         $date = $row['transaction_date'];
                                         $type = $row['type'];

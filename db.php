@@ -358,35 +358,53 @@
     function getGMT($date){
         return gmdate('Y-m-d H:i:s', strtotime($date));
     }
-function process_date($date, $page1, $page2){
-    $date = preg_replace("[/0-9]",'',$date);
-    if(strpos($date, "/") !== false){
-        $pos = strpos($date, "/");
-    } else {
-        error($page1."-4");
-    }
-    $month = substr($date, 0 , $pos);
-    if(strlen($month) == 1){
-        $month = "0" . $month;
-    }
-    $date = substr($date, $pos + 1, strlen($date));
-    if(strpos($date, "/") !== false){
-        $pos = strpos($date, "/");
-    } else {
-        error($page2."-4");
-    }
-    $day = substr($date, 0, $pos);
-    $date = substr($date, $pos + 1, strlen($date));
-    if(strpos($date, " ")){
-        $pos = strpos($date, " ");
-    } else {
-        $pos = strlen($date);
-    }
-    $year = substr($date, 0, $pos);
-    if(strlen($year) == 2){
-        $year = "20" . $year;
-    }
+    function process_date($date, $page1, $page2){
+        $date = preg_replace("[/0-9]",'',$date);
+        if(strpos($date, "/") !== false){
+            $pos = strpos($date, "/");
+        } else {
+            error($page1."-4");
+        }
+        $month = substr($date, 0 , $pos);
+        if(strlen($month) == 1){
+            $month = "0" . $month;
+        }
+        $date = substr($date, $pos + 1, strlen($date));
+        if(strpos($date, "/") !== false){
+            $pos = strpos($date, "/");
+        } else {
+            error($page2."-4");
+        }
+        $day = substr($date, 0, $pos);
+        $date = substr($date, $pos + 1, strlen($date));
+        if(strpos($date, " ")){
+            $pos = strpos($date, " ");
+        } else {
+            $pos = strlen($date);
+        }
+        $year = substr($date, 0, $pos);
+        if(strlen($year) == 2){
+            $year = "20" . $year;
+        }
 
-    return $year.'-'.$month.'-'.$day." 00:00:00";
-}
+        return $year.'-'.$month.'-'.$day." 00:00:00";
+    }
+    function commaSeparate($balance){
+        $balance = strrev($balance);
+        $point = strpos($balance, ".");
+        $balance2 = substr($balance, $point+1, strlen($balance));
+        $decimals = substr($balance, 0 ,$point + 1);
+        $balance = $balance2;
+        $balance1 = "";
+        while ((strlen($balance) / 3) >= 1) {
+            $balance1 = $balance1. substr($balance, 0, 3) . ",";
+            $balance = substr($balance, 3, strlen($balance) - 3);
+        }
+        if ($balance == ""){
+            return strrev($decimals . substr($balance1, 0, strlen($balance1)-1));
+        } else {
+            return strrev($decimals . $balance1 . $balance);
+        }
+
+    }
 ?>

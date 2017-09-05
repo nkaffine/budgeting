@@ -5,8 +5,8 @@
  * Date: 8/27/17
  * Time: 11:19 AM
  */
-    require_once('../db.php');
-    require_once('../libraries/transactions.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/libraries/transactions.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
         error("12-1-7");
     }

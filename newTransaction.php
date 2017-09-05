@@ -5,7 +5,7 @@
  * Date: 8/11/17
  * Time: 8:43 PM
  */
-    require_once('db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
     require_once('header.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
         error("2-1-7");
@@ -92,15 +92,15 @@
             //The transaction is one that has not been recognized
             error("2-5-2");
     }
-    $query = "select account_name, account_id, curr_balance from accounts inner join (select account_id, count(account_id) ".
-        "as freq from (select from_account as account_id from transactions where user_id = 1 union all select to_account ".
+    $query = "select account_name, account_id, curr_balance from accounts left join (select account_id, count(account_id) ".
+        "as freq from (select from_account as account_id from transactions where user_id = {$user_id} union all select to_account ".
         "as account_id from transactions where user_id = {$user_id}) as r1 group by account_id) as r2 using (account_id) where account_type = ".
         "{$from_account_type} and user_id = {$user_id} and active = 1 order by freq desc";
     if(($from_accounts = @ mysqli_query($connection, $query))==FALSE){
         showerror($connection);
     }
-    $query = "select account_name, account_id, curr_balance from accounts inner join (select account_id, count(account_id) ".
-        "as freq from (select from_account as account_id from transactions where user_id = 1 union all select to_account ".
+    $query = "select account_name, account_id, curr_balance from accounts left join (select account_id, count(account_id) ".
+        "as freq from (select from_account as account_id from transactions where user_id = {$user_id} union all select to_account ".
         "as account_id from transactions where user_id = {$user_id}) as r1 group by account_id) as r2 using (account_id) ".
         "where account_type = {$to_account_type} and user_id = {$user_id} and active = 1 order by freq desc";
     if(($to_accounts = @ mysqli_query($connection, $query))==FALSE){

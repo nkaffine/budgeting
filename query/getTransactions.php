@@ -5,7 +5,7 @@
  * Date: 8/11/17
  * Time: 10:45 PM
  */
-    require_once('../db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))) {
         showerror($connection);
     }
@@ -81,7 +81,7 @@
         $newTransaction->setAttribute("from_name", $row['from_name']);
         $newTransaction->setAttribute("to_name", $row['to_name']);
         $newTransaction->setAttribute("id", $row['transaction_id']);
-        $newTransaction->setAttribute("amount", $row['amount']);
+        $newTransaction->setAttribute("amount", commaSeparate($row['amount']));
         $newTransaction->setAttribute("to_type", $row['to_type']);
         $newTransaction->setAttribute("from_type", $row['from_type']);
     }

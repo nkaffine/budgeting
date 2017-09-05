@@ -5,16 +5,19 @@
  * Date: 8/27/17
  * Time: 12:12 PM
  */
-    require_once('db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
     require_once('header.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
         error("14-1-7");
     }
     $user_id = logincheck("14-2", "14-3");
     $menu = getHeaderInfo("14-4", "14-5");
-    $query = "select account_id, account_name, init_balance, curr_balance, balance_type from accounts where ".
-        "user_id = {$user_id} and active = 1 and account_type = 0";
+    $query = "select account_name, account_id, curr_balance, init_balance, balance_type from accounts left join (select account_id, count(account_id) ".
+        "as freq from (select from_account as account_id from transactions where user_id = {$user_id} union all select to_account ".
+        "as account_id from transactions where user_id = {$user_id}) as r1 group by account_id) as r2 using (account_id) where account_type = ".
+        "0 and user_id = {$user_id} and active = 1 order by freq desc";
     if(($accounts = @ mysqli_query($connection, $query))==FALSE){
+        debug($query);
         error("14-6-6");
     }
 ?>
@@ -60,8 +63,8 @@
                             while($row = @ mysqli_fetch_array($accounts)){
                                 $name = $row['account_name'];
                                 $id = $row['account_id'];
-                                $init_balance = $row['init_balance'];
-                                $curr_balance = $row['curr_balance'];
+                                $init_balance = commaSeparate($row['init_balance']);
+                                $curr_balance = commaSeparate($row['curr_balance']);
                                 $balance_type = $row['balance_type'];
                                 if($balance_type == 1){
                                     $color = "red";

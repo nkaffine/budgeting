@@ -5,7 +5,7 @@
  * Date: 9/3/17
  * Time: 9:00 PM
  */
-    require_once('../db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
     require_once('../libraries/transactions.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
         error("26-0-7");

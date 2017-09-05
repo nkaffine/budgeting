@@ -5,15 +5,17 @@
  * Date: 8/27/17
  * Time: 3:37 PM
  */
-    require_once('db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
     require_once('header.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
         error("19-1-7");
     }
     $user_id = logincheck("19-2", "19-3");
     $menu = getHeaderInfo("19-4", "19-5");
-    $query = "select account_name, account_id, account_type, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 3 and active = 1";
+    $query = "select account_name, account_id, curr_balance, init_balance, balance_type from accounts left join (select account_id, count(account_id) ".
+        "as freq from (select from_account as account_id from transactions where user_id = {$user_id} union all select to_account ".
+        "as account_id from transactions where user_id = {$user_id}) as r1 group by account_id) as r2 using (account_id) where account_type = ".
+        "3 and user_id = {$user_id} and active = 1 order by freq desc";
     if(($ar = @ mysqli_query($connection, $query))==FALSE){
         error("19-6-6");
     }
@@ -59,7 +61,7 @@
                 while($row = @ mysqli_fetch_array($ar)){
                     $account_id = $row['account_id'];
                     $account_name = $row['account_name'];
-                    $curr_balance = $row['curr_balance'];
+                    $curr_balance = commaSeparate($row['curr_balance']);
                     $link = "account.php?account_id=".urlencode($account_id);
                     echo"<tr>
                                                 <td><a href='{$link}'>{$account_name}</a></td>

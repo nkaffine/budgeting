@@ -5,8 +5,9 @@
  * Date: 8/10/17
  * Time: 8:23 PM
  */
-    require_once('db.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/db.php');
     require_once('header.php');
+    require_once('queries/accounts.php');
     if(!($connection = @ mysqli_connect($DB_hostname, $DB_username, $DB_password, $DB_databasename))){
         error("4-1-7");
     }
@@ -17,28 +18,23 @@
     if(($recent_transactions = @ mysqli_query($connection, $query))==FALSE){
         error("4-4-6");
     }
-    $query = "select account_id, account_name, curr_balance, balance_type from accounts where user_id = {$user_id} and ".
-        "account_type = 0 and active = 1";
+    $query = getAccounts($user_id, 0);
     if(($personal_accounts = @ mysqli_query($connection, $query))==FALSE){
         error("4-5-6");
     }
-    $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 2 and active = 1";
+    $query = getAccounts($user_id, 2);
     if(($earning_categorys = @ mysqli_query($connection, $query))==FALSE){
         error("4-6-6");
     }
-    $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 1 and active = 1";
+    $query = getAccounts($user_id, 1);
     if(($spending_categories = @ mysqli_query($connection, $query))==FALSE){
         error("4-7-6");
     }
-    $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 3 and active = 1";
+    $query = getAccounts($user_id, 3);
     if(($ar_accounts = @ mysqli_query($connection, $query))==FALSE){
         error("4-8-6");
     }
-    $query = "select account_id, account_name, curr_balance from accounts where user_id = {$user_id} and ".
-        "account_type = 4 and active = 1";
+    $query = getAccounts($user_id, 4);
     if(($ap_accounts = @ mysqli_query($connection, $query))==FALSE){
         error("4-9-6");
     }
@@ -139,7 +135,7 @@
                             <?php
                             while($row = @ mysqli_fetch_array($recent_transactions)){
                                 $name = $row['transaction_name'];
-                                $amount = $row['amount'];
+                                $amount = commaSeparate($row['amount']);
                                 $date = $row['transaction_date'];
                                 $type = $row['type'];
                                 if($type == 1 || $type == 3){
@@ -186,7 +182,7 @@
                                 while($row = @ mysqli_fetch_array($personal_accounts)){
                                     $name = $row['account_name'];
                                     $account_id = $row['account_id'];
-                                    $curr_balance = $row['curr_balance'];
+                                    $curr_balance = commaSeparate($row['curr_balance']);
                                     $balance_type = $row['balance_type'];
                                     if($balance_type == 1){
                                         $color = "red";
@@ -229,7 +225,7 @@
                             while($row = @ mysqli_fetch_array($ap_accounts)){
                                 $name = $row['account_name'];
                                 $account_id = $row['account_id'];
-                                $account_balance = $row['curr_balance'];
+                                $account_balance = commaSeparate($row['curr_balance']);
                                 $link = 'account.php?account_id=' . $account_id;
                                 echo"<tr>
                                         <td><a href='{$link}'>{$name}</a></td>
@@ -263,7 +259,7 @@
                             while($row = @ mysqli_fetch_array($ar_accounts)){
                                 $name = $row['account_name'];
                                 $account_id = $row['account_id'];
-                                $account_balance = $row['curr_balance'];
+                                $account_balance = commaSeparate($row['curr_balance']);
                                 $link = 'account.php?account_id=' . $account_id;
                                 echo"<tr>
                                     <td><a href='{$link}'>{$name}</a></td>
